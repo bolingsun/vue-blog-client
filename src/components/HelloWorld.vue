@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-layout text-center wrap>
-      <v-flex xs12>
+      <!-- <v-flex xs12>
         <v-img
           :src="require('../assets/logo.svg')"
           class="my-3"
@@ -69,7 +69,7 @@
             {{ eco.text }}
           </a>
         </v-layout>
-      </v-flex>
+      </v-flex> -->
     </v-layout>
   </v-container>
 </template>
