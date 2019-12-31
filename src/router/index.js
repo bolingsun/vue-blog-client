@@ -24,6 +24,30 @@ const routes = [
         component: () => import("@/views/About.vue")
       }
     ]
+  },
+  {
+    path: "/login",
+    component: Layout,
+    redirect: "/login/index",
+    children: [
+      {
+        path: "index",
+        name: "Login",
+        component: () => import("@/views/Login.vue")
+      }
+    ]
+  },
+  {
+    path: "/article-edit",
+    component: Layout,
+    redirect: "/article-edit/index",
+    children: [
+      {
+        path: "index",
+        name: "ArticleEdit",
+        component: () => import("@/views/ArticleEdit.vue")
+      }
+    ]
   }
   // {
   //   path: "/",

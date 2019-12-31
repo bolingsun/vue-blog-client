@@ -10,7 +10,7 @@
       </v-col>
       <v-col cols="6" md="4">
         <v-card class="pa-2" outlined tile>
-          .col-6 .col-md-4
+          <menu-info></menu-info>
         </v-card>
       </v-col>
     </v-row>
@@ -21,11 +21,13 @@
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
 import ArticleList from "@/views/ArticleList.vue";
+import MenuInfo from "@/views/MenuInfo.vue";
 
 export default {
   name: "home",
   components: {
-    ArticleList
+    ArticleList,
+    MenuInfo
   }
 };
 </script>

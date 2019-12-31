@@ -34,7 +34,7 @@
       </v-btn>
     </v-app-bar>
     <!-- 中间内容区 -->
-    <v-content class="grey lighten-3">
+    <v-content class="white">
       <router-view></router-view>
     </v-content>
     <v-footer>

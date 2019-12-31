@@ -10,10 +10,12 @@
       </v-img>
 
       <v-card-subtitle class="pb-0">
-        <v-icon>mdi-alarm</v-icon>
-        2 months ago
+        <v-icon>mdi-clock-outline</v-icon>
+        2019-12-12 9:10
         <v-icon>mdi-comment-multiple-outline</v-icon>
         23
+        <v-icon>mdi-cryengine</v-icon>
+        42
       </v-card-subtitle>
 
       <v-card-text class="text--primary">
