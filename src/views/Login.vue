@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { login } from "@/api/user";
+// import { login } from "@/api/user";
 export default {
   name: "Login",
   data: () => ({
@@ -60,16 +60,27 @@ export default {
     handleLogin() {
       if (this.$refs.form.validate()) {
         // console.log("通过");
-        let para = {
+        let loginForm = {
           email: this.email,
           password: this.password
         };
-        login(para).then(res => {
-          console.log(res);
-          this.reset();
-        });
+        this.$store
+          .dispatch("user/login", loginForm)
+          .then(() => {
+            this.$router.push({
+              path: "/"
+            });
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        // login(para).then(res => {
+        //   console.log(res);
+        //   this.reset();
+        // });
       } else {
         // console.log("不通过");
+        return false;
       }
     },
     validate() {

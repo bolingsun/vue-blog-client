@@ -45,6 +45,9 @@ const routes = [
       {
         path: "index",
         name: "ArticleEdit",
+        meta: {
+          requireAuth: true // requireAuth表示需要登录
+        },
         component: () => import("@/views/ArticleEdit.vue")
       }
     ]

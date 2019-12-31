@@ -29,7 +29,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn icon>
+      <v-btn icon @click="handleLogOut">
         <v-icon>mdi-export</v-icon>
       </v-btn>
     </v-app-bar>
@@ -47,13 +47,18 @@
 <script>
 export default {
   name: "Layout",
-
   components: {},
-
   data() {
     return {
       drawer: false
     };
+  },
+  methods: {
+    // 退出登录
+    async handleLogOut() {
+      await this.$store.dispatch("user/logout");
+      this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+    }
   }
 };
 </script>

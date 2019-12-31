@@ -1,6 +1,7 @@
 import axios from "axios";
-// import store from "@/store";
-// import { getToken } from "@/utils/auth";
+import store from "@/store";
+import { getToken } from "@/utils/auth";
+import router from "../router";
 
 // 创建axios实例
 const service = axios.create({
@@ -19,8 +20,7 @@ service.interceptors.request.use(
     //   // ['X-Token'] 未自定义key
     //   config.headers["token"] = getToken();
     // }
-    config.headers["x-token"] =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTA0ODAwMDY2M2IyYjM1MGNkODU5ZWEiLCJpYXQiOjE1Nzc3MDQ4MDcsImV4cCI6MTU3NzcxMjAwN30.JrLUx52_FzUXFR1b6KZ11i62s0LfZ7KBiaHTeOUtBk8";
+    config.headers["x-token"] = getToken();
     return config;
   },
   error => {
@@ -37,26 +37,24 @@ service.interceptors.response.use(
     // 如果返回后端定义的code不是 1 ，就视为一个错误返回.
     if (res.status !== 1) {
       console.log(res.errMsg || "Error");
-      // Message({
-      //   message: res.errMsg || "Error",
-      //   type: "error",
-      //   duration: 1 * 1000
-      // });
-      // if (
-      //   res.errCode === "err.token.outtime" ||
-      //   res.errCode === "err.token.invalid"
-      // ) {
-      //   // token超时、过期
-      //   store.dispatch("user/resetToken").then(() => {
-      //     location.reload();
-      //   });
-      // }
       return Promise.reject(res);
     } else {
       return res;
     }
   },
   error => {
+    if (error.response) {
+      switch (error.response.status) {
+        case 401:
+          // 返回 401 token超时、过期, 清除token信息并跳转到登录页面
+          store.dispatch("user/resetToken").then(() => {
+            // location.reload();
+            router.replace({
+              path: "/login"
+            });
+          });
+      }
+    }
     console.log("err" + error); // for debug
     return Promise.reject(error);
   }

@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       title: "",
-      content: "", // 工单内容，编辑器内容
+      content: "",
       editorOption: {
         // 编辑器自定义
         placeholder: "请输入内容",
@@ -75,8 +75,10 @@ export default {
         title: this.title,
         content: this.content
       };
-      articleAdd(para).then(res => {
-        console.log(res);
+      articleAdd(para).then(() => {
+        this.$router.push({
+          path: "/home"
+        });
       });
     },
     clear() {
