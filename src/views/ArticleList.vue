@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-card class="mx-auto" outlined>
+    <!-- <v-card class="mx-auto" outlined>
       <v-img
         class="white--text align-end"
         height="200px"
@@ -32,26 +32,121 @@
           CONTINIU READING
         </v-btn>
       </v-card-actions>
+    </v-card> -->
+
+    <v-card
+      v-for="(item, index) in articles"
+      class="mx-auto"
+      :key="index"
+      outlined
+    >
+      <v-img
+        class="white--text align-end"
+        height="200px"
+        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+      >
+        <v-card-title>{{ item.title }}</v-card-title>
+      </v-img>
+
+      <v-card-subtitle class="pb-0">
+        <v-icon>mdi-clock-outline</v-icon>
+        {{ item.publish_time | formatDate }}
+        <v-icon>mdi-comment-multiple-outline</v-icon>
+        {{ item.comment_count }}
+        <v-icon>mdi-cryengine</v-icon>
+        {{ item.visit_count }}
+      </v-card-subtitle>
+
+      <v-card-text class="text--primary">
+        <div>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrude consectetur adipisicing elit, sed do
+          eiusmod tempor incididunt.
+        </div>
+      </v-card-text>
+
+      <v-card-actions>
+        <v-btn color="grey" outlined>
+          点击阅读
+        </v-btn>
+      </v-card-actions>
     </v-card>
 
     <div class="text-center">
       <v-pagination
         v-model="page"
-        :length="15"
-        :total-visible="7"
+        :length="length"
+        @input="fetchList"
+        @previous="fetchList"
+        @next="fetchList"
       ></v-pagination>
     </div>
   </v-container>
 </template>
 
 <script>
+import { articleList } from "@/api/blog";
 export default {
   name: "ArticleList",
   components: {},
   data() {
     return {
-      page: 1
+      page: 1,
+      pageSize: 3,
+      total: 1,
+      length: 1,
+      articles: []
     };
+  },
+  computed: {
+    // length() {
+    //   return this.total / this.pageSize;
+    // }
+  },
+  filters: {
+    formatDate: function(value) {
+      let date = new Date(value);
+      let y = date.getFullYear();
+      let MM = date.getMonth() + 1;
+      MM = MM < 10 ? "0" + MM : MM;
+      let d = date.getDate();
+      d = d < 10 ? "0" + d : d;
+      let h = date.getHours();
+      h = h < 10 ? "0" + h : h;
+      let m = date.getMinutes();
+      m = m < 10 ? "0" + m : m;
+      let s = date.getSeconds();
+      s = s < 10 ? "0" + s : s;
+      return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+    }
+  },
+  created() {
+    this.fetchList();
+  },
+  mounted() {},
+  methods: {
+    fetchList() {
+      let para = {
+        currentPage: this.page,
+        pageSize: this.pageSize
+      };
+      articleList(para)
+        .then(res => {
+          // console.log(res);
+          this.articles = [...res.data];
+          this.length = Math.ceil(res.total / this.pageSize);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    handleNextClick() {
+      this.fetchList();
+    },
+    handlePrev() {
+      this.fetchList();
+    }
   }
 };
 </script>

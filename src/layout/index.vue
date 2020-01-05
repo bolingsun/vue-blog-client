@@ -13,7 +13,7 @@
         </v-list-item>
         <v-list-item link @click="linkToLogin">
           <v-list-item-action>
-            <v-icon>mdi-home</v-icon>
+            <v-icon>mdi-account-circle</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title>登录</v-list-item-title>

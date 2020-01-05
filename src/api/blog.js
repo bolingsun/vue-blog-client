@@ -7,3 +7,11 @@ export function articleAdd(data) {
     data
   });
 }
+// 博客文章获取列表（前台展示）
+export function articleList(query) {
+  return request({
+    url: "/article/article-list",
+    method: "get",
+    params: query
+  });
+}
