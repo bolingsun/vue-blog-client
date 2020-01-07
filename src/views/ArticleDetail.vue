@@ -1,19 +1,20 @@
 <template>
   <v-container fluid>
+    <div><v-btn text color="primary" @click="goBack">返回</v-btn></div>
     <!-- 标题 -->
     <div class="d-flex justify-center">
-      <div class="title font-weight-bold">{{ title }}</div>
+      <div class="title font-weight-bold">{{ article.title }}</div>
     </div>
     <div class="caption mb-2">
-      <span class="mr-2">发布于{{ publish_time | formatDate }}</span>
-      <span class="mr-2">阅读{{ visit_count }}</span>
-      <span class="mr-2">喜欢{{ like_count }}</span>
+      <span class="mr-2">发布于{{ article.publish_time | formatDate }}</span>
+      <span class="mr-2">阅读{{ article.visit_count }}</span>
+      <span class="mr-2">喜欢{{ article.like_count }}</span>
     </div>
     <!-- 内容 -->
-    <div class="body-1" v-html="content"></div>
+    <div class="body-1 article-content" v-html="article.content"></div>
     <v-divider></v-divider>
     <!-- 评论 -->
-    <div class="mt-2 mb-2">目前{{ comment_count }}条评论</div>
+    <div class="mt-2 mb-2">目前{{ article.comment_count }}条评论</div>
     <v-divider></v-divider>
     <v-list>
       <v-list-item
@@ -23,7 +24,7 @@
       >
         <div class="subtitle-2">
           {{ item.user_id.username }}说道：
-          <v-btn text small color="#2196F3">回复</v-btn>
+          <v-btn text small color="info">回复</v-btn>
         </div>
         <div class="pl-10">
           <div class="caption">
@@ -46,85 +47,42 @@
         </div>
       </v-list-item>
     </v-list>
-    <div v-if="user">
+    <div v-if="token">
       <v-textarea
         outlined
-        name="input-7-4"
-        label="Outlined textarea"
-        value="The Woodman set to work at once, and so sharp was his axe that the tree was soon chopped nearly through."
+        label="添加新评论"
+        placeholder="请输入内容"
+        v-model="newComment"
       ></v-textarea>
       <div class="d-flex justify-center">
-        <v-btn block color="secondary">提交</v-btn>
+        <v-btn block color="secondary" @click="handleAddNewComment">提交</v-btn>
       </div>
     </div>
     <div v-else class="d-flex justify-center">
-      <v-btn color="secondary">登录后发表评论</v-btn>
+      <v-btn color="secondary" @click="handleToLogin">登录后发表评论</v-btn>
     </div>
   </v-container>
 </template>
 
 <script>
+import { articleDetail, commentList, addComment } from "@/api/blog";
+import { mapState } from "vuex";
 export default {
   name: "AtricleDetail",
   components: {},
   data() {
     return {
-      title: "我是标题",
-      content: "<p>我是内容，你看一下</p>",
-      visit_count: 2,
-      comment_count: 1,
-      like_count: 1,
-      publish_time: "2020-01-05T02:43:25.346Z",
-      commentList: [
-        {
-          content: "我是new comment内容",
-          user_id: {
-            _id: "5e048000663b2b350cd859ea",
-            username: "user2"
-          },
-          created: "2020-01-05T06:42:08.411Z",
-          replys: [
-            {
-              _id: "5e1190325286b03be84765df",
-              content: "你这个评论批量",
-              user_info: {
-                id: "5e047f0ce862981008597673",
-                username: "admin"
-              },
-              created: "2020-01-05T07:28:50.515Z"
-            },
-            {
-              _id: "5e1190325286b03be84765df",
-              content: "你这个就说好说话",
-              user_info: {
-                id: "5e047f0ce862981008597673",
-                username: "admin"
-              },
-              created: "2020-01-05T07:28:50.515Z"
-            }
-          ]
-        },
-        {
-          content: "我是comment2内容",
-          user_id: {
-            _id: "5e048000663b2b350cd859ea",
-            username: "user3"
-          },
-          created: "2020-01-05T06:42:08.411Z",
-          replys: [
-            {
-              _id: "5e1190325286b03be84765df",
-              content: "回复comment2",
-              user_info: {
-                id: "5e047f0ce862981008597673",
-                username: "user2"
-              },
-              created: "2020-01-05T07:28:50.515Z"
-            }
-          ]
-        }
-      ],
-      user: ""
+      article: {
+        title: "",
+        content: "",
+        visit_count: 0,
+        comment_count: 0,
+        like_count: 0,
+        publish_time: ""
+      },
+      commentList: [],
+      user: "",
+      newComment: ""
     };
   },
   filters: {
@@ -144,12 +102,68 @@ export default {
       return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
     }
   },
-  computed: {},
-  created() {},
+  computed: {
+    ...mapState({
+      token: state => state.user.token
+    })
+  },
+  created() {
+    this.initData();
+  },
   mounted() {},
   beforeDestroy() {},
-  methods: {}
+  methods: {
+    initData() {
+      // console.log(this.$route);
+      let para = {
+        id: this.$route.query.id
+      };
+      articleDetail(para)
+        .then(res => {
+          this.article = { ...res.data };
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      commentList(para)
+        .then(res => {
+          this.commentList = [...res.data];
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    handleAddNewComment() {
+      if (!this.newComment) {
+        return;
+      }
+      let para = {
+        articleId: this.$route.query.id,
+        content: this.newComment
+      };
+      addComment(para)
+        .then(() => {
+          this.newComment = "";
+          this.initData();
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    goBack() {
+      this.$router.push({ path: "/home" });
+    },
+    handleToLogin() {
+      this.$router.push({ path: "/login" });
+    }
+  }
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.article-content {
+  img {
+    max-width: 100%;
+  }
+}
+</style>

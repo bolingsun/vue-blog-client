@@ -69,7 +69,7 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn color="grey" outlined>
+            <v-btn color="grey" outlined @click="handleRead(item)">
               点击阅读
             </v-btn>
           </v-card-actions>
@@ -144,6 +144,12 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    handleRead(v) {
+      this.$router.push({
+        path: "/article-detail/index",
+        query: { id: v._id }
+      });
     },
     handleNextClick() {
       this.fetchList();
