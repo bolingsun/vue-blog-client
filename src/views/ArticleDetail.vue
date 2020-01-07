@@ -21,9 +21,14 @@
         :key="item.title"
         class="d-flex flex-column align-start mb-4 grey lighten-5"
       >
-        <div class="subtitle-2">{{ item.user_id.username }}说道：</div>
+        <div class="subtitle-2">
+          {{ item.user_id.username }}说道：
+          <v-btn text small color="#2196F3">回复</v-btn>
+        </div>
         <div class="pl-10">
-          <div class="caption">{{ item.created | formatDate }}</div>
+          <div class="caption">
+            {{ item.created | formatDate }}
+          </div>
           <div class="body-2 mb-2">{{ item.content }}</div>
           <div v-if="item.replys.length > 0">
             <div
