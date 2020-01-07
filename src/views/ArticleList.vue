@@ -33,45 +33,49 @@
         </v-btn>
       </v-card-actions>
     </v-card> -->
-
-    <v-card
-      v-for="(item, index) in articles"
-      class="mx-auto"
-      :key="index"
-      outlined
-    >
-      <v-img
-        class="white--text align-end"
-        height="200px"
-        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+    <v-row>
+      <v-col
+        v-for="(item, index) in articles"
+        :key="index"
+        :xs="12"
+        :md="index % 3 === 0 ? 12 : 6"
       >
-        <v-card-title>{{ item.title }}</v-card-title>
-      </v-img>
+        <v-card class="mx-auto" outlined>
+          <v-img
+            class="white--text align-end"
+            height="200px"
+            :src="
+              item.cover_img
+                ? item.cover_img
+                : 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'
+            "
+          >
+            <v-card-title>{{ item.title }}</v-card-title>
+          </v-img>
 
-      <v-card-subtitle class="pb-0">
-        <v-icon>mdi-clock-outline</v-icon>
-        {{ item.publish_time | formatDate }}
-        <v-icon>mdi-comment-multiple-outline</v-icon>
-        {{ item.comment_count }}
-        <v-icon>mdi-cryengine</v-icon>
-        {{ item.visit_count }}
-      </v-card-subtitle>
+          <v-card-subtitle class="pb-0">
+            <v-icon>mdi-clock-outline</v-icon>
+            {{ item.publish_time | formatDate }}
+            <v-icon>mdi-comment-multiple-outline</v-icon>
+            {{ item.comment_count }}
+            <v-icon>mdi-cryengine</v-icon>
+            {{ item.visit_count }}
+          </v-card-subtitle>
 
-      <v-card-text class="text--primary">
-        <div>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrude consectetur adipisicing elit, sed do
-          eiusmod tempor incididunt.
-        </div>
-      </v-card-text>
+          <v-card-text class="text--primary">
+            <div>
+              {{ item.brief }}
+            </div>
+          </v-card-text>
 
-      <v-card-actions>
-        <v-btn color="grey" outlined>
-          点击阅读
-        </v-btn>
-      </v-card-actions>
-    </v-card>
+          <v-card-actions>
+            <v-btn color="grey" outlined>
+              点击阅读
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
 
     <div class="text-center">
       <v-pagination

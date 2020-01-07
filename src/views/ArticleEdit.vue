@@ -5,11 +5,18 @@
         v-model="title"
         :error-messages="titleErrors"
         :counter="10"
-        label="Title"
+        label="标题"
         required
         @input="$v.title.$touch()"
         @blur="$v.title.$touch()"
       ></v-text-field>
+      <v-text-field v-model="brief" label="简介"></v-text-field>
+      <v-file-input
+        accept="image/jpeg, image/png"
+        label="封面图片"
+        prepend-icon="mdi-file-image-outline"
+        @change="handleInputChange"
+      ></v-file-input>
       <v-row>
         <v-col cols="12">
           <quill-editor
@@ -32,7 +39,7 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required } from "vuelidate/lib/validators";
-import { articleAdd } from "@/api/blog";
+import { articleAdd, upload } from "@/api/blog";
 export default {
   mixins: [validationMixin],
   validations: {
@@ -43,7 +50,9 @@ export default {
   data() {
     return {
       title: "",
+      brief: "",
       content: "",
+      cover_img: "",
       editorOption: {
         // 编辑器自定义
         placeholder: "请输入内容",
@@ -73,17 +82,35 @@ export default {
       this.$v.$touch();
       let para = {
         title: this.title,
+        brief: this.brief,
+        cover_img: this.cover_img,
         content: this.content
       };
-      articleAdd(para).then(() => {
-        this.$router.push({
-          path: "/home"
+      articleAdd(para)
+        .then(() => {
+          this.$router.push({
+            path: "/home"
+          });
+        })
+        .catch(err => {
+          console.log(err);
         });
-      });
     },
     clear() {
       this.$v.$reset();
       this.name = "";
+    },
+    handleInputChange(v) {
+      let data = new FormData();
+      data.append("fileName", v.name);
+      data.append("file", v);
+      upload(data)
+        .then(res => {
+          this.cover_img = res.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     // 失去焦点事件
     onEditorBlur() {},

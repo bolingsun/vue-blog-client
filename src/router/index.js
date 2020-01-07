@@ -51,6 +51,19 @@ const routes = [
         component: () => import("@/views/ArticleEdit.vue")
       }
     ]
+  },
+  {
+    path: "/article-detail",
+    component: Layout,
+    redirect: "/article-detail/index",
+    children: [
+      {
+        path: "index",
+        name: "ArticleDetail",
+        meta: {},
+        component: () => import("@/views/ArticleDetail.vue")
+      }
+    ]
   }
   // {
   //   path: "/",
