@@ -24,7 +24,7 @@
       >
         <div class="subtitle-2">
           {{ item.user_id.username }}说道：
-          <v-btn text small color="info">回复</v-btn>
+          <v-btn text small color="info" @click="openReley(item)">回复</v-btn>
         </div>
         <div class="pl-10">
           <div class="caption">
@@ -47,6 +47,37 @@
         </div>
       </v-list-item>
     </v-list>
+    <v-row justify="center">
+      <v-dialog v-model="dialog" persistent max-width="290">
+        <v-card>
+          <v-card-title class="headline">回复</v-card-title>
+          <v-card-text>
+            <v-container>
+              <v-row>
+                <v-col cols="12">
+                  <v-textarea
+                    label="添加新回复"
+                    auto-grow
+                    rows="2"
+                    placeholder="请输入回复内容"
+                    v-model="newReply"
+                  ></v-textarea>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green darken-1" text @click="dialog = false"
+              >取消</v-btn
+            >
+            <v-btn color="green darken-1" text @click="handleNewReply"
+              >确定</v-btn
+            >
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
     <div v-if="token">
       <v-textarea
         outlined
@@ -65,7 +96,7 @@
 </template>
 
 <script>
-import { articleDetail, commentList, addComment } from "@/api/blog";
+import { articleDetail, commentList, addComment, addReply } from "@/api/blog";
 import { mapState } from "vuex";
 export default {
   name: "AtricleDetail",
@@ -82,7 +113,10 @@ export default {
       },
       commentList: [],
       user: "",
-      newComment: ""
+      newComment: "",
+      newReply: "",
+      dialog: false,
+      commentId: "" // 发布回复的父评论id
     };
   },
   filters: {
@@ -149,6 +183,29 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    handleNewReply() {
+      if (!this.newReply) {
+        return;
+      }
+      let para = {
+        id: this.commentId,
+        content: this.newReply
+      };
+      addReply(para)
+        .then(() => {
+          this.dialog = false;
+          this.commentId = "";
+          this.newReply = "";
+          this.initData();
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    openReley(v) {
+      this.dialog = true;
+      this.commentId = v._id;
     },
     goBack() {
       this.$router.push({ path: "/home" });
