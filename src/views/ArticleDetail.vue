@@ -100,15 +100,15 @@
 <script>
 import { articleDetail, commentList, addComment, addReply } from "@/api/blog";
 import { mapState } from "vuex";
-import hljs from "highlight.js";
-import "highlight.js/styles/atom-one-dark.css";
-const highlightCode = () => {
-  const preEl = document.querySelectorAll("pre");
+// import hljs from "highlight.js";
+// import "highlight.js/styles/atom-one-dark.css";
+// const highlightCode = () => {
+//   const preEl = document.querySelectorAll("pre");
 
-  preEl.forEach(el => {
-    hljs.highlightBlock(el);
-  });
-};
+//   preEl.forEach(el => {
+//     hljs.highlightBlock(el);
+//   });
+// };
 export default {
   name: "AtricleDetail",
   components: {},
@@ -156,10 +156,10 @@ export default {
     this.initData();
   },
   mounted() {
-    highlightCode();
+    // highlightCode();
   },
   updated() {
-    highlightCode();
+    // highlightCode();
   },
   beforeDestroy() {},
   methods: {
@@ -235,8 +235,19 @@ export default {
 
 <style lang="scss">
 .article-content {
+  // 图片样式
   img {
     max-width: 100%;
+  }
+  // 代码块样式
+  pre {
+    padding: 10px;
+    margin: 8px 0;
+    background: #cfd8dc;
+    color: #8959a8;
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-family: "Lucida Console, Consolas, Monaco";
   }
   // .ql-syntax {
   //   background-color: #23241f;

@@ -38,6 +38,18 @@ const routes = [
     ]
   },
   {
+    path: "/register",
+    component: Layout,
+    redirect: "/register/index",
+    children: [
+      {
+        path: "index",
+        name: "Register",
+        component: () => import("@/views/Register.vue")
+      }
+    ]
+  },
+  {
     path: "/article-edit",
     component: Layout,
     redirect: "/article-edit/index",

@@ -6,6 +6,15 @@
         :rules="emailRules"
         label="E-mail"
         required
+        prepend-icon="mdi-email"
+        type="text"
+      ></v-text-field>
+
+      <v-text-field
+        v-model="username"
+        :rules="usernameRules"
+        label="Username"
+        required
         prepend-icon="mdi-account"
         type="text"
       ></v-text-field>
@@ -19,10 +28,7 @@
         type="password"
       />
       <div class="d-flex justify-center">
-        <v-btn class="mr-2" color="warning" @click="handleLogin">
-          登录
-        </v-btn>
-        <v-btn color="info" text @click="LinkToRegister">
+        <v-btn color="info" @click="handleRegister">
           注册
         </v-btn>
       </div>
@@ -31,9 +37,9 @@
 </template>
 
 <script>
-// import { login } from "@/api/user";
+import { register } from "@/api/user";
 export default {
-  name: "Login",
+  name: "Register",
   data: () => ({
     valid: true,
     email: "",
@@ -42,33 +48,28 @@ export default {
       v => /.+@.+\..+/.test(v) || "E-mail must be valid"
     ],
     password: "",
+    username: "",
+    usernameRules: [v => !!v || "Username is required"],
     passwordRules: [v => !!v || "Password is required"]
   }),
 
   methods: {
-    handleLogin() {
+    handleRegister() {
       if (this.$refs.form.validate()) {
-        // console.log("通过");
         let loginForm = {
+          username: this.username,
           email: this.email,
           password: this.password
         };
-        this.$store
-          .dispatch("user/login", loginForm)
+        register(loginForm)
           .then(() => {
-            this.$router.push({
-              path: "/"
-            });
+            this.$router.push({ path: "/login" });
+            this.reset();
           })
           .catch(err => {
             console.log(err);
           });
-        // login(para).then(res => {
-        //   console.log(res);
-        //   this.reset();
-        // });
       } else {
-        // console.log("不通过");
         return false;
       }
     },
@@ -82,9 +83,6 @@ export default {
     },
     resetValidation() {
       this.$refs.form.resetValidation();
-    },
-    LinkToRegister() {
-      this.$router.push({ path: "/register" });
     }
   }
 };
