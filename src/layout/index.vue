@@ -51,11 +51,16 @@
     </v-app-bar>
     <!-- 中间内容区 -->
     <v-content class="white">
+      <transition name="fade-transform" mode="out-in">
+        <keep-alive>
+          <router-view :key="key"></router-view>
+        </keep-alive>
+      </transition>
       <!-- vue2.1.0之前的版本方法 -->
-      <keep-alive>
+      <!-- <keep-alive>
         <router-view v-if="$route.meta.keepAlive" :key="key"></router-view>
       </keep-alive>
-      <router-view v-if="!$route.meta.keepAlive" :key="key"></router-view>
+      <router-view v-if="!$route.meta.keepAlive" :key="key"></router-view> -->
       <!-- 模式2需要history模式 -->
       <!-- <transition name="fade-transform" mode="out-in">
         <keep-alive :include="['Home']">
