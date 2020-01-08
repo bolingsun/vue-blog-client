@@ -114,6 +114,7 @@ export default {
   components: {},
   data() {
     return {
+      id: "",
       article: {
         title: "",
         content: "",
@@ -152,6 +153,7 @@ export default {
       token: state => state.user.token
     })
   },
+  watch: {},
   created() {
     this.initData();
   },
@@ -229,6 +231,22 @@ export default {
     },
     handleToLogin() {
       this.$router.push({ path: "/login" });
+    },
+    reset() {
+      this.commentList = [];
+      this.article.title = "";
+      this.article.content = "";
+      this.article.visit_count = 0;
+      this.article.like_count = 0;
+      this.article.publish_time = "";
+    }
+  },
+  // 这里需要判断，如果id变化了，需要重新获取数据
+  activated() {
+    if (this.id !== this.$route.query.id) {
+      this.id = this.$route.query.id;
+      this.commentList = [];
+      this.initData();
     }
   }
 };
