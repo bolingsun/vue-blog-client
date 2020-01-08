@@ -51,7 +51,9 @@
     </v-app-bar>
     <!-- 中间内容区 -->
     <v-content class="white">
-      <router-view></router-view>
+      <transition name="fade-transform" mode="out-in">
+        <router-view></router-view>
+      </transition>
     </v-content>
     <v-footer>
       <v-spacer></v-spacer>
@@ -87,3 +89,20 @@ export default {
   }
 };
 </script>
+<style lang="scss">
+/* fade-transform */
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all 0.5s;
+}
+
+.fade-transform-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+</style>

@@ -11,7 +11,9 @@
       <span class="mr-2">喜欢{{ article.like_count }}</span>
     </div>
     <!-- 内容 -->
-    <div class="body-1 article-content" v-html="article.content"></div>
+    <div class="body-1 article-content">
+      <div v-html="article.content"></div>
+    </div>
     <v-divider></v-divider>
     <!-- 评论 -->
     <div class="mt-2 mb-2">目前{{ article.comment_count }}条评论</div>
@@ -98,6 +100,15 @@
 <script>
 import { articleDetail, commentList, addComment, addReply } from "@/api/blog";
 import { mapState } from "vuex";
+import hljs from "highlight.js";
+import "highlight.js/styles/atom-one-dark.css";
+const highlightCode = () => {
+  const preEl = document.querySelectorAll("pre");
+
+  preEl.forEach(el => {
+    hljs.highlightBlock(el);
+  });
+};
 export default {
   name: "AtricleDetail",
   components: {},
@@ -144,7 +155,12 @@ export default {
   created() {
     this.initData();
   },
-  mounted() {},
+  mounted() {
+    highlightCode();
+  },
+  updated() {
+    highlightCode();
+  },
   beforeDestroy() {},
   methods: {
     initData() {
@@ -222,5 +238,9 @@ export default {
   img {
     max-width: 100%;
   }
+  // .ql-syntax {
+  //   background-color: #23241f;
+  //   color: #f8f8f2;
+  // }
 }
 </style>
