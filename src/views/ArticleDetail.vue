@@ -224,7 +224,8 @@ export default {
       this.commentId = v._id;
     },
     goBack() {
-      this.$router.push({ path: "/home" });
+      // this.$router.push({ path: "/home" });
+      this.$router.back();
     },
     handleToLogin() {
       this.$router.push({ path: "/login" });

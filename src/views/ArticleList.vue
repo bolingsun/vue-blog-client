@@ -97,7 +97,7 @@ export default {
   data() {
     return {
       page: 1,
-      pageSize: 3,
+      pageSize: 10,
       total: 1,
       length: 1,
       articles: []

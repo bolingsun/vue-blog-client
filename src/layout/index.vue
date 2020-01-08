@@ -51,9 +51,17 @@
     </v-app-bar>
     <!-- 中间内容区 -->
     <v-content class="white">
-      <transition name="fade-transform" mode="out-in">
-        <router-view></router-view>
-      </transition>
+      <!-- vue2.1.0之前的版本方法 -->
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive" :key="key"></router-view>
+      </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive" :key="key"></router-view>
+      <!-- 模式2需要history模式 -->
+      <!-- <transition name="fade-transform" mode="out-in">
+        <keep-alive :include="['Home']">
+          <router-view></router-view>
+        </keep-alive>
+      </!-->
     </v-content>
     <v-footer>
       <v-spacer></v-spacer>
@@ -71,6 +79,12 @@ export default {
       drawer: false
     };
   },
+  computed: {
+    key() {
+      return this.$route.path;
+    }
+  },
+  mounted() {},
   methods: {
     // 退出登录
     async handleLogOut() {
@@ -87,6 +101,10 @@ export default {
       this.$router.push({ path: "/article-edit" });
     }
   }
+  // activated() {
+  // },
+  // deactivated() {
+  // }
 };
 </script>
 <style lang="scss">
