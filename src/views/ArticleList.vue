@@ -129,6 +129,15 @@ export default {
     this.fetchList();
   },
   mounted() {},
+  activated() {
+    // console.log(this.$route);
+    // 需要刷新，keepalive不应该生效
+    if (this.$route.query.reload && this.$route.query.reload === true) {
+      this.fetchList();
+    }
+    // console.log(this.$store.state.app.scrollTop);
+    document.documentElement.scrollTop = this.$store.state.app.scrollTop;
+  },
   methods: {
     fetchList() {
       let para = {
@@ -146,6 +155,12 @@ export default {
         });
     },
     handleRead(v) {
+      // console.log(document.body.scrollTop);
+      // console.log(document.documentElement.scrollTop);
+      this.$store.dispatch(
+        "app/changeScrollTop",
+        document.documentElement.scrollTop
+      );
       this.$router.push({
         path: "/article-detail/index",
         query: { id: v._id }

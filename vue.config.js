@@ -11,6 +11,8 @@ module.exports = {
           "^/api": ""
         }
       }
-    }
+    },
+    host: "localhost",
+    port: 8081
   }
 };

@@ -94,12 +94,14 @@
     <div v-else class="d-flex justify-center">
       <v-btn color="secondary" @click="handleToLogin">登录后发表评论</v-btn>
     </div>
+    <scroll-to-top></scroll-to-top>
   </v-container>
 </template>
 
 <script>
 import { articleDetail, commentList, addComment, addReply } from "@/api/blog";
 import { mapState } from "vuex";
+import ScrollToTop from "@/views/ScrollToTop";
 // import hljs from "highlight.js";
 // import "highlight.js/styles/atom-one-dark.css";
 // const highlightCode = () => {
@@ -111,7 +113,9 @@ import { mapState } from "vuex";
 // };
 export default {
   name: "AtricleDetail",
-  components: {},
+  components: {
+    ScrollToTop
+  },
   data() {
     return {
       id: "",
@@ -164,6 +168,9 @@ export default {
     // highlightCode();
   },
   beforeDestroy() {},
+  activated() {
+    document.documentElement.scrollTop = 0;
+  },
   methods: {
     initData() {
       // console.log(this.$route);
@@ -240,15 +247,15 @@ export default {
       this.article.like_count = 0;
       this.article.publish_time = "";
     }
-  },
-  // 这里需要判断，如果id变化了，需要重新获取数据
-  activated() {
-    if (this.id !== this.$route.query.id) {
-      this.id = this.$route.query.id;
-      this.commentList = [];
-      this.initData();
-    }
   }
+  // 这里需要判断，如果id变化了，需要重新获取数据
+  // activated() {
+  //   if (this.id !== this.$route.query.id) {
+  //     this.id = this.$route.query.id;
+  //     this.commentList = [];
+  //     this.initData();
+  //   }
+  // }
 };
 </script>
 

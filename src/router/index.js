@@ -16,10 +16,6 @@ const routes = [
       {
         path: "home",
         name: "Home",
-        meta: {
-          keepAlive: true,
-          scrollToTop: false
-        },
         component: () => import("@/views/Home.vue")
       },
       {
@@ -37,9 +33,6 @@ const routes = [
       {
         path: "index",
         name: "Login",
-        meta: {
-          scrollToTop: true
-        },
         component: () => import("@/views/Login.vue")
       }
     ]
@@ -52,9 +45,6 @@ const routes = [
       {
         path: "index",
         name: "Register",
-        meta: {
-          scrollToTop: true
-        },
         component: () => import("@/views/Register.vue")
       }
     ]
@@ -68,8 +58,7 @@ const routes = [
         path: "index",
         name: "ArticleEdit",
         meta: {
-          requireAuth: true, // requireAuth表示需要登录
-          scrollToTop: true
+          requireAuth: true // requireAuth表示需要登录
         },
         component: () => import("@/views/ArticleEdit.vue")
       }
@@ -83,9 +72,6 @@ const routes = [
       {
         path: "index",
         name: "ArticleDetail",
-        meta: {
-          scrollToTop: true
-        },
         component: () => import("@/views/ArticleDetail.vue")
       }
     ]

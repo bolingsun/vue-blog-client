@@ -4,7 +4,7 @@
       <v-text-field
         v-model="title"
         :error-messages="titleErrors"
-        :counter="10"
+        :counter="20"
         label="标题"
         required
         @input="$v.title.$touch()"
@@ -90,7 +90,10 @@ export default {
       articleAdd(para)
         .then(() => {
           this.$router.push({
-            path: "/home"
+            path: "/home",
+            query: {
+              reload: true
+            }
           });
         })
         .catch(err => {
