@@ -63,6 +63,10 @@ export default {
         };
         register(loginForm)
           .then(() => {
+            this.$message({
+              type: "success",
+              message: "注册成功"
+            });
             this.$router.push({ path: "/login" });
             this.reset();
           })

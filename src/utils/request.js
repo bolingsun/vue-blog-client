@@ -2,6 +2,7 @@ import axios from "axios";
 import store from "@/store";
 import { getToken } from "@/utils/auth";
 import router from "../router";
+import Message from "@/components/Message";
 
 // 创建axios实例
 const service = axios.create({
@@ -25,6 +26,10 @@ service.interceptors.request.use(
   },
   error => {
     console.log(error); // for debug
+    Message.message({
+      type: "error",
+      message: error.message
+    });
     return Promise.reject(error);
   }
 );
@@ -55,6 +60,10 @@ service.interceptors.response.use(
           });
       }
     }
+    Message.message({
+      type: "error",
+      message: error.message
+    });
     console.log("err" + error); // for debug
     return Promise.reject(error);
   }

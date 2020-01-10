@@ -202,6 +202,10 @@ export default {
       };
       addComment(para)
         .then(() => {
+          this.$message({
+            type: "success",
+            message: "发表评论成功"
+          });
           this.newComment = "";
           this.initData();
         })

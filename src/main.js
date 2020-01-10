@@ -12,6 +12,9 @@ import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
 Vue.use(VueQuillEditor);
 
+import Message from "./components/Message";
+Vue.use(Message); // 因为我们的对象上定义了 install 方法, 所以可以直接调用 Vue 的 use 方法
+
 // 代码高亮，取消，会导致文本输入框卡顿
 // import hljs from "highlight.js";
 // import "highlight.js/styles/atom-one-dark.css";

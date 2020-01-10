@@ -56,6 +56,10 @@ export default {
         this.$store
           .dispatch("user/login", loginForm)
           .then(() => {
+            this.$message({
+              type: "success",
+              message: "登录成功"
+            });
             this.$router.push({
               path: "/"
             });
