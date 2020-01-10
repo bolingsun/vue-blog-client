@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="white">
-    <form>
+    <v-form ref="form">
       <v-text-field
         v-model="title"
         :error-messages="titleErrors"
@@ -32,7 +32,7 @@
       </v-row>
       <v-btn class="mr-4" outlined @click="submit">submit</v-btn>
       <v-btn outlined @click="clear">clear</v-btn>
-    </form>
+    </v-form>
   </v-container>
 </template>
 
@@ -90,11 +90,12 @@ export default {
       articleAdd(para)
         .then(() => {
           this.$router.push({
-            path: "/home",
-            query: {
+            name: "Home",
+            params: {
               reload: true
             }
           });
+          this.clear();
         })
         .catch(err => {
           console.log(err);
@@ -102,19 +103,25 @@ export default {
     },
     clear() {
       this.$v.$reset();
-      this.name = "";
+      this.$refs.form.reset();
+      this.title = "";
+      this.brief = "";
+      this.cover_img = "";
+      this.content = "";
     },
     handleInputChange(v) {
-      let data = new FormData();
-      data.append("fileName", v.name);
-      data.append("file", v);
-      upload(data)
-        .then(res => {
-          this.cover_img = res.data;
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      if (v) {
+        let data = new FormData();
+        data.append("fileName", v.name);
+        data.append("file", v);
+        upload(data)
+          .then(res => {
+            this.cover_img = res.data;
+          })
+          .catch(error => {
+            console.log(error);
+          });
+      }
     },
     // 失去焦点事件
     onEditorBlur() {},

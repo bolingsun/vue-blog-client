@@ -34,12 +34,7 @@
       </v-card-actions>
     </v-card> -->
     <v-row>
-      <v-col
-        v-for="(item, index) in articles"
-        :key="index"
-        :xs="12"
-        :md="index % 3 === 0 ? 12 : 6"
-      >
+      <v-col v-for="(item, index) in articles" :key="index" :xs="12" :md="6">
         <v-card class="mx-auto" outlined>
           <v-img
             class="white--text align-end"
@@ -50,15 +45,17 @@
                 : 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'
             "
           >
-            <v-card-title>{{ item.title }}</v-card-title>
+            <v-card-title>
+              <span>{{ item.title }}</span>
+            </v-card-title>
           </v-img>
 
           <v-card-subtitle class="pb-0">
             <v-icon>mdi-clock-outline</v-icon>
             {{ item.publish_time | formatDate }}
-            <v-icon>mdi-comment-multiple-outline</v-icon>
+            <v-icon>mdi-comment-processing-outline</v-icon>
             {{ item.comment_count }}
-            <v-icon>mdi-cryengine</v-icon>
+            <v-icon>mdi-eye-outline</v-icon>
             {{ item.visit_count }}
           </v-card-subtitle>
 
@@ -81,9 +78,9 @@
       <v-pagination
         v-model="page"
         :length="length"
-        @input="fetchList"
-        @previous="fetchList"
-        @next="fetchList"
+        @input="handleClickNum"
+        @previous="handlePrev"
+        @next="handleNextClick"
       ></v-pagination>
     </div>
   </v-container>
@@ -132,7 +129,7 @@ export default {
   activated() {
     // console.log(this.$route);
     // 需要刷新，keepalive不应该生效
-    if (this.$route.query.reload && this.$route.query.reload === true) {
+    if (this.$route.params.reload && this.$route.params.reload === true) {
       this.fetchList();
     }
     // console.log(this.$store.state.app.scrollTop);
@@ -166,11 +163,23 @@ export default {
         query: { id: v._id }
       });
     },
+    // 点击分页数字
+    handleClickNum() {
+      this.fetchList();
+      this.$store.dispatch("app/changeScrollTop", 0);
+      document.documentElement.scrollTop = 0;
+    },
+    // 下一页
     handleNextClick() {
       this.fetchList();
+      this.$store.dispatch("app/changeScrollTop", 0);
+      document.documentElement.scrollTop = 0;
     },
+    // 上一页
     handlePrev() {
       this.fetchList();
+      this.$store.dispatch("app/changeScrollTop", 0);
+      document.documentElement.scrollTop = 0;
     }
   }
 };

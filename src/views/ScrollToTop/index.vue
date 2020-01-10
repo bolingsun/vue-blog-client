@@ -42,7 +42,7 @@ export default {
 .gotop {
   position: fixed;
   right: 2%;
-  bottom: 5px;
+  bottom: 5vh;
   z-index: 999;
 }
 </style>
