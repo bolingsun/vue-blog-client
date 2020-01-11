@@ -15,7 +15,12 @@ router.beforeEach(async (to, from, next) => {
         next();
       } else {
         try {
-          await store.dispatch("user/getInfo");
+          const { role } = await store.dispatch("user/getInfo");
+          const accessRoutes = await store.dispatch(
+            "permission/generateRoutes",
+            [role]
+          );
+          router.addRoutes(accessRoutes);
           next({ ...to, replace: true });
         } catch (error) {
           // 移除 token，跳转登录页重新登录

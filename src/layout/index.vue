@@ -17,6 +17,14 @@
 
       <v-divider></v-divider>
       <v-list dense>
+        <sidebar-item
+          v-for="route in permission_routes"
+          :key="route.path"
+          :item="route"
+          :base-path="route.path"
+        />
+      </v-list>
+      <!-- <v-list dense>
         <v-list-item link @click="linkToHome">
           <v-list-item-action>
             <v-icon>mdi-home</v-icon>
@@ -49,7 +57,7 @@
             <v-list-item-title>文章编辑</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-      </v-list>
+      </v-list> -->
     </v-navigation-drawer>
     <!-- 顶部工具栏 -->
     <v-app-bar app color="primary" dark>
@@ -90,10 +98,13 @@
 </template>
 
 <script>
+import SidebarItem from "./SidebarItem";
 import { mapGetters } from "vuex";
 export default {
   name: "Layout",
-  components: {},
+  components: {
+    SidebarItem
+  },
   data() {
     return {
       drawer: false,
@@ -110,7 +121,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["avatar", "name", "role"]),
+    ...mapGetters(["avatar", "name", "role", "permission_routes"]),
     key() {
       return this.$route.path;
     },
@@ -122,7 +133,9 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    console.log(this.permission_routes);
+  },
   methods: {
     // 退出登录
     async handleLogOut() {
@@ -132,18 +145,6 @@ export default {
         type: "success",
         message: "退出成功"
       });
-    },
-    linkToHome() {
-      this.$router.push({ name: "Home" });
-    },
-    linkToLogin() {
-      this.$router.push({ path: "/login" });
-    },
-    linkToEdit() {
-      this.$router.push({ path: "/article-edit" });
-    },
-    linkToContact() {
-      this.$router.push({ path: "/contact-me" });
     }
   }
   // activated() {
