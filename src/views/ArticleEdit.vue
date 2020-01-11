@@ -30,8 +30,8 @@
           </quill-editor>
         </v-col>
       </v-row>
-      <v-btn class="mr-4" outlined @click="submit">submit</v-btn>
-      <v-btn outlined @click="clear">clear</v-btn>
+      <v-btn class="mr-4" outlined @click="submit">提交</v-btn>
+      <v-btn outlined @click="clear">清空</v-btn>
     </v-form>
   </v-container>
 </template>

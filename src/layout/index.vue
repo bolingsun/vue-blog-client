@@ -2,6 +2,20 @@
   <v-app>
     <!-- 侧边抽屉 -->
     <v-navigation-drawer v-model="drawer" app>
+      <template v-slot:prepend>
+        <v-list-item two-line>
+          <v-list-item-avatar>
+            <img src="https://randomuser.me/api/portraits/women/81.jpg" />
+          </v-list-item-avatar>
+
+          <v-list-item-content>
+            <v-list-item-title>Admin</v-list-item-title>
+            <v-list-item-subtitle>Logged In</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+      </template>
+
+      <v-divider></v-divider>
       <v-list dense>
         <v-list-item link @click="linkToHome">
           <v-list-item-action>
@@ -41,7 +55,7 @@
     <v-app-bar app color="primary" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Page title</v-toolbar-title>
+      <v-toolbar-title>MyBlog</v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -95,6 +109,10 @@ export default {
     async handleLogOut() {
       await this.$store.dispatch("user/logout");
       this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+      this.$message({
+        type: "success",
+        message: "退出成功"
+      });
     },
     linkToHome() {
       this.$router.push({ name: "Home" });

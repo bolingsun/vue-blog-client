@@ -3,7 +3,7 @@
     <v-snackbar v-model="visible" :timeout="duration" top :color="color">
       {{ message }}
       <v-btn color="blue" text @click="visible = false">
-        Close
+        关闭
       </v-btn>
     </v-snackbar>
   </div>

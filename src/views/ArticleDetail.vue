@@ -157,7 +157,14 @@ export default {
       token: state => state.user.token
     })
   },
-  watch: {},
+  watch: {
+    // 监听路由变化，当路由带有查询文章id时，就需要获取文章详情
+    $route() {
+      if (this.$route.query.id) {
+        this.initData();
+      }
+    }
+  },
   created() {
     this.initData();
   },
