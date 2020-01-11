@@ -5,12 +5,12 @@
       <template v-slot:prepend>
         <v-list-item two-line>
           <v-list-item-avatar>
-            <img src="https://randomuser.me/api/portraits/women/81.jpg" />
+            <img :src="avatar ? avatar : defaultAvatar" />
           </v-list-item-avatar>
 
           <v-list-item-content>
-            <v-list-item-title>Admin</v-list-item-title>
-            <v-list-item-subtitle>Logged In</v-list-item-subtitle>
+            <v-list-item-title>{{ name }}</v-list-item-title>
+            <v-list-item-subtitle>{{ role | roleFilter }}</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
       </template>
@@ -90,15 +90,27 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "Layout",
   components: {},
   data() {
     return {
-      drawer: false
+      drawer: false,
+      defaultAvatar: require("../assets/avatar.png")
     };
   },
+  filters: {
+    roleFilter(role) {
+      if (role === "admin") {
+        return "管理员";
+      } else {
+        return "普通用户";
+      }
+    }
+  },
   computed: {
+    ...mapGetters(["avatar", "name", "role"]),
     key() {
       return this.$route.path;
     }

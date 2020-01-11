@@ -1,7 +1,8 @@
 import router from "./router";
 import store from "./store";
 import { getToken } from "@/utils/auth"; // 从cookie中拿去token
-router.beforeEach((to, from, next) => {
+import Message from "@/components/Message";
+router.beforeEach(async (to, from, next) => {
   const hasToken = getToken();
   if (hasToken) {
     /* 有token */
@@ -9,7 +10,24 @@ router.beforeEach((to, from, next) => {
       // 有token,请求的是登录页面,直接返回首页
       next({ path: "/home" });
     } else {
-      next();
+      const hasRole = store.getters.role;
+      if (hasRole) {
+        next();
+      } else {
+        try {
+          await store.dispatch("user/getInfo");
+          next({ ...to, replace: true });
+        } catch (error) {
+          // 移除 token，跳转登录页重新登录
+          await store.dispatch("user/resetToken");
+          Message.message({
+            type: "error",
+            message: "获取用户信息失败，请重新登录"
+          });
+          console.log(error);
+          next({ path: "/login" });
+        }
+      }
     }
   } else {
     /* 无token */
