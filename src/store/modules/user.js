@@ -75,6 +75,9 @@ const actions = {
   logout({ commit }) {
     return new Promise(resolve => {
       commit("SET_TOKEN", "");
+      commit("SET_NAME", "");
+      commit("SET_AVATAR", "");
+      commit("SET_ROLE", "");
       removeToken();
       resolve();
     });

@@ -75,6 +75,18 @@ const routes = [
         component: () => import("@/views/ArticleDetail.vue")
       }
     ]
+  },
+  {
+    path: "/contact-me",
+    component: Layout,
+    redirect: "/contact-me/index",
+    children: [
+      {
+        path: "index",
+        name: "ContactMe",
+        component: () => import("@/views/ContactMe.vue")
+      }
+    ]
   }
 ];
 const createRouter = () =>

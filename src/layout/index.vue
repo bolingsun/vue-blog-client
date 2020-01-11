@@ -3,7 +3,7 @@
     <!-- 侧边抽屉 -->
     <v-navigation-drawer v-model="drawer" app>
       <template v-slot:prepend>
-        <v-list-item two-line>
+        <v-list-item v-show="infoShow" two-line>
           <v-list-item-avatar>
             <img :src="avatar ? avatar : defaultAvatar" />
           </v-list-item-avatar>
@@ -33,7 +33,7 @@
             <v-list-item-title>登录</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item link>
+        <v-list-item link @click="linkToContact">
           <v-list-item-action>
             <v-icon>mdi-contact-mail</v-icon>
           </v-list-item-action>
@@ -113,6 +113,13 @@ export default {
     ...mapGetters(["avatar", "name", "role"]),
     key() {
       return this.$route.path;
+    },
+    infoShow() {
+      if (this.name) {
+        return true;
+      } else {
+        return false;
+      }
     }
   },
   mounted() {},
@@ -134,6 +141,9 @@ export default {
     },
     linkToEdit() {
       this.$router.push({ path: "/article-edit" });
+    },
+    linkToContact() {
+      this.$router.push({ path: "/contact-me" });
     }
   }
   // activated() {
