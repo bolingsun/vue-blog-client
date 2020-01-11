@@ -36,6 +36,10 @@ router.beforeEach(async (to, from, next) => {
     }
   } else {
     /* 无token */
+    // 没有token,意味没有登录。如果vuex中的路由表为空，就需要调用设置默认路由，这样路由菜单才有东西可以渲染展示。
+    if (store.state.permission.routes.length === 0) {
+      store.dispatch("permission/generateDefaulRotes");
+    }
     if (to.meta.requireAuth) {
       // 该路由需要登录权限
       if (store.state.user.token) {

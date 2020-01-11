@@ -11,6 +11,7 @@ import Layout from "@/layout";
  * 常规路由，不需要权限角色判断
  * icon: 菜单栏图表
  * title： 菜单栏标题
+ * hidden:true设置来显示隐藏菜单（设置为true，改路由不会显示在左侧菜单中）
  */
 export const constantRoutes = [
   {
@@ -94,6 +95,12 @@ export const constantRoutes = [
         component: () => import("@/views/ContactMe.vue")
       }
     ]
+  },
+  {
+    path: "/404",
+    name: "404",
+    component: () => import("@/views/404.vue"),
+    hidden: true
   }
 ];
 /**
@@ -108,7 +115,7 @@ export const asyncRoutes = [
     path: "/article-edit",
     component: Layout,
     meta: {
-      icon: "mdi-home",
+      icon: "mdi-folder-edit-outline",
       title: "文章编辑",
       roles: ["admin"]
     },
@@ -123,7 +130,8 @@ export const asyncRoutes = [
         component: () => import("@/views/ArticleEdit.vue")
       }
     ]
-  }
+  },
+  { path: "*", redirect: "/404", hidden: true }
 ];
 const createRouter = () =>
   new VueRouter({

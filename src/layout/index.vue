@@ -134,7 +134,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.permission_routes);
+    // console.log(this.permission_routes);
   },
   methods: {
     // 退出登录
