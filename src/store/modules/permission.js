@@ -50,7 +50,7 @@ const actions = {
   // 没有登陆时，路由菜单设置为静态路由。
   generateDefaulRotes({ commit }) {
     return new Promise(resolve => {
-      commit("SET_ROUTES", []);
+      commit("SET_ROUTES", [{ path: "*", redirect: "/404", hidden: true }]);
       resolve();
     });
   }
