@@ -131,6 +131,26 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: "/article-manage",
+    component: Layout,
+    meta: {
+      icon: "mdi-file-multiple-outline",
+      title: "文章管理",
+      roles: ["admin"]
+    },
+    redirect: "/article-manage/index",
+    children: [
+      {
+        path: "index",
+        name: "ArticleManage",
+        meta: {
+          requireAuth: true // requireAuth表示需要登录
+        },
+        component: () => import("@/views/ArticleManage.vue")
+      }
+    ]
+  },
   { path: "*", redirect: "/404", hidden: true }
 ];
 const createRouter = () =>
