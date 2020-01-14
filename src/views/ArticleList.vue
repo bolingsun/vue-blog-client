@@ -41,7 +41,7 @@
             height="200px"
             :src="
               item.cover_img
-                ? item.cover_img
+                ? '/api/' + item.cover_img
                 : 'https://cdn.vuetifyjs.com/images/cards/docks.jpg'
             "
           >
