@@ -1,13 +1,13 @@
 <template>
   <!-- <div class="home">
-  </div> -->
+  </div>-->
   <v-container fluid>
     <v-row>
       <!-- <v-col xs="12" md="4">
         <v-card class="pa-2" outlined tile>
           <menu-info></menu-info>
         </v-card>
-      </v-col> -->
+      </v-col>-->
       <v-col xs="12" md="12">
         <v-card class="pa-2" outlined tile>
           <article-list></article-list>

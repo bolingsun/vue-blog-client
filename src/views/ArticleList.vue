@@ -32,9 +32,9 @@
           CONTINIU READING
         </v-btn>
       </v-card-actions>
-    </v-card> -->
+    </v-card>-->
     <v-row>
-      <v-col v-for="(item, index) in articles" :key="index" :xs="12" :md="6">
+      <v-col v-for="(item, index) in articles" :key="index" :xs="12" :md="12">
         <v-card class="mx-auto" outlined>
           <v-img
             class="white--text align-end"
@@ -60,15 +60,13 @@
           </v-card-subtitle>
 
           <v-card-text class="text--primary">
-            <div>
-              {{ item.brief }}
-            </div>
+            <div>{{ item.brief }}</div>
           </v-card-text>
 
           <v-card-actions>
-            <v-btn color="grey" outlined @click="handleRead(item)">
-              点击阅读
-            </v-btn>
+            <v-btn color="grey" outlined @click="handleRead(item)"
+              >点击阅读</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-col>
